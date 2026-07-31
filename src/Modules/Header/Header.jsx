@@ -9,7 +9,7 @@ const Header = () => {
       <ModularKitLogo />
       <Button className="btn-viewlink">
         <a
-          href="hhttps://git.nuka.works/nukaworks/toolkits/ModularKit/"
+          href="https://github.com/NukaWorks/ModularKit-Web"
           rel="noreferrer"
           target="_blank"
         >
