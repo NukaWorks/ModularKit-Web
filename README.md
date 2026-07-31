@@ -1,21 +1,144 @@
-![Lines of code](https://img.shields.io/tokei/lines/github/NukaWorks/ModularKit-Web?label=Total%20Lines%20Of%20Codes%20%3A)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/NukaWorks/ModularKit-Web)
+![Maven Central](https://img.shields.io/maven-central/v/works.nuka/ModularKit)
 
-## ⚠️ The main branch is stable, for development, go on the devel branch.
 
-# ModularKit-Web - The Official ProjectPage for ModularKit !
+# ModularKit
 
-## Contributing and Building :
-For contributing, you need to :
-- Fork the project
-- Install NodeJS
-- Install a good text editor (eg. **Sublime Text, VSCode or WebStorm**, not **MSNotepad** xD)
-- Time and patience !
+## What is ModularKit ?
 
-### For building :
-``npm install`` && ``npm run build``
+**ModularKit**, an alternative to the OSGi framework, more lightweight and powerful Java toolkit for creating
+modular apps.
 
-### For testing :
-``npm install`` && ``npm run start``
+With ModularKit, you can create modular apps with increased flexibility and
+stability, designed to create projects without server shutdown and a good
+maintainability.
 
-**Enjoy 😉**
+## Getting started
+
+First, you need to create a new project (maven recommended) and add **ModularKit** dependency :
+or you can clone this project: [https://github.com/NukaWorks/ModuleTest](https://github.com/NukaWorks/ModuleTest)
+### To implement ModularKit in your app (Client side):
+
+```xml
+<dependency>
+    <groupId>works.nuka</groupId>
+    <artifactId>ModularKit</artifactId>
+    <version>{ Check maven-central badge }</version>
+</dependency>
+```
+
+### For create your module (Module side):
+
+#### Create manually
+
+```xml
+<dependency>
+    <groupId>works.nuka</groupId>
+    <artifactId>ModularKit</artifactId>
+    <version>{ Check maven-central badge }</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+## Examples
+
+### hello-world
+
+```java
+package com.example;
+
+import works.nuka.modularkit.ModularModule;
+
+public class ModuleTest extends ModularModule {
+
+    public ModuleTest() throws Exception {
+        super();
+    }
+
+    @Override
+    protected void start() {
+        System.out.println("Hello " + this.getModuleConfig().getName() + " !");
+    }
+
+    @Override
+    protected void stop() {
+        System.out.println("Goodbye " + this.getModuleConfig().getName() + " !");
+    }
+
+    @Override
+    protected void load() {
+        System.out.println("Loaded " + this.getModuleConfig().getName() + " !");
+
+    }
+
+    @Override
+    protected void unload() {
+        System.out.println("Unloaded " + this.getModuleConfig().getName() + " !");
+
+    }
+}
+```
+
+### For registering and run a module
+
+For running an internal module, let's try this little example :
+
+```java
+import works.nuka.modularkit.ModularSource;
+import ModuleTest;
+
+public class Main {
+    public static void main() {
+        // Register the source first
+        ModularSource mainSource = new ModularSource("e3640e55");
+
+        // and the Module ...
+        ModuleTest testMod = new ModuleTest();
+
+        // ... and then let's run it !
+        mainSource.getModuleManager().runModule(testMod);
+    }
+}
+```
+
+For sources and modules you need to generate a new uuid (Group 1).
+
+#### MacOS/Linux and others unix systems
+
+```shell
+~$ uuidgen
+**e3640e55**-cbaf-42c2-b053-52a2cfa2e0a5
+~$
+```
+
+To run external modules (.jar), checkout [CoffeeLoader](https://github.com/NukaWorks/CoffeeLoader) or proceed:
+
+Fork [ModuleTest](https://github.com/NukaWorks/ModuleTest) and edit modules.json under the resources folder:
+```json
+{
+  "name": "ModuleTest",
+  "uuid": "758ad8e8",
+  "mainClass": "com.example.ModuleTest",
+  "author": "Powerm1nt",
+  "description": "HelloWorld Module",
+  "version": "1.0.0"
+}
+```
+
+In your app, implement an external source:
+```java
+// ...
+    
+ModularSource src = new ModularSource(generateLittleUuid(), sourceDir, ".jar", config.fileWatcher);
+    
+// ...
+```
+
+#### UUIDGEN Online
+
+You can use **https://www.uuidgenerator.net/**
+
+⚠ **You need to copy the group 1 of the uuid.**
+
+### Need more?
+Go on our **[developer documentation center](https://developer.nuka.works/)** and checkout **ModularKit**, you can find more
+documentation, code example and support.
